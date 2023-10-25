@@ -7,6 +7,10 @@ import { LoginComponent } from './login/login.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { EquiposComponent } from './equipos/equipos.component';
+import { FormsModule } from '@angular/forms';
+
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { provideAuth, getAuth } from '@angular/fire/auth';
 
 @NgModule({
   declarations: [
@@ -18,7 +22,8 @@ import { EquiposComponent } from './equipos/equipos.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

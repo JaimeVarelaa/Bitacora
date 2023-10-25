@@ -1,6 +1,9 @@
 nav[role=navigation] {
   background: #34373b;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 nav[role=navigation] li {
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);

@@ -1,22 +1,22 @@
 <div class="login">
-<div class="login-box">
-  <h2>Iniciar Sesión</h2>
-  <form>
-    <div class="user-box">
-      <input type="text" name="" required="">
-      <label>Usuario</label>
-    </div>
-    <div class="user-box">
-      <input type="password" name="" required="">
-      <label>Contraseña</label>
-    </div>
-    <a href="#">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      Iniciar Sesión
-    </a>
-  </form>
-</div>
+  <div class="login-box">
+    <h2>Iniciar Sesión</h2>
+    <form (submit)="verificarUsuario()">
+      <div class="user-box">
+        <input type="text" name="nombre" required [(ngModel)]="username">
+        <label>Usuario</label>
+      </div>
+      <div class="user-box">
+        <input type="password" name="password" required [(ngModel)]="password">
+        <label>Contraseña</label>
+      </div>
+      <a href="#" (click)="verificarUsuario()">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        Iniciar Sesión
+      </a>
+    </form>
+  </div>
 </div>

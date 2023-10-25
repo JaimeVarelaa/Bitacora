@@ -162,9 +162,9 @@
 
 .login {
   position: relative;
-  background-image: url('../../assets/wallhaven-426vyx_1920x1080.png'); /* Reemplaza con la ruta de tu imagen de fondo */
+  background-image: url('../../assets/wallhaven-426vyx_1920x1080.png');
   background-size: cover;
   background-position: center;
-  background-attachment: fixed; /* Opcional para mantener la imagen fija mientras se desplaza */
-  height: 100vh; /* Establece la altura para que cubra toda la pantalla verticalmente */
+  background-attachment: fixed;
+  height: 100vh;
 }

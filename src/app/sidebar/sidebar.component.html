@@ -1,8 +1,11 @@
 <nav role="navigation">
-  <img src="assets/edificio.png" alt="Logo de la aplicación">
   <ul class="main">
+    <img src="assets/edificio.png" alt="Logo de la aplicación">
     <li class="dashboard"><a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
     <li class="comments"><a [routerLink]="['equipos']"><i class="fas fa-computer"></i> Equipos</a></li>
     <li class="users"><a [routerLink]="['usuarios']"><i class="fas fa-user"></i> Usuarios</a></li>
+  </ul>
+  <ul class="exit">
+    <li (click)="logout()"><a href="#"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
   </ul>
 </nav>

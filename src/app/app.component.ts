@@ -1,17 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Bitacora';
-  isLoggedIn = true;
+  isLoggedIn = false;
 
-  handleLogin(loginData: any) {
-    // Lógica de inicio de sesión aquí
-    // Después de iniciar sesión con éxito, cambia el valor de isLoggedIn a verdadero.
-    this.isLoggedIn = true;
+  @Output() loginSuccess = new EventEmitter<boolean>();
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit() {
+    this.authService.checkLoginStatus();
+    this.isLoggedIn = this.authService.isLoggedIn;
+  }
+
+  handleLogin(success: boolean) {if (success) {
+      this.isLoggedIn = true;
+    }
   }
 }
