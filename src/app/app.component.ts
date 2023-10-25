@@ -7,4 +7,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Bitacora';
+  isLoggedIn = true;
+
+  handleLogin(loginData: any) {
+    // Lógica de inicio de sesión aquí
+    // Después de iniciar sesión con éxito, cambia el valor de isLoggedIn a verdadero.
+    this.isLoggedIn = true;
+  }
 }

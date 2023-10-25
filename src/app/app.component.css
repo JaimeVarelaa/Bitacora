@@ -1,0 +1,8 @@
+#content {
+    display: flex;
+    justify-content: flex-start;
+}
+
+app-sidebar{
+    min-width: 10%;
+}
