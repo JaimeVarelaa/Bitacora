@@ -1,14 +1,14 @@
 .add {
     position: absolute;
+}
 
-    button {
-        background-color: #06A288;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 3px;
-        cursor: pointer;
-    }
+.add button {
+    background-color: #06A288;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
 }
 
 form {
