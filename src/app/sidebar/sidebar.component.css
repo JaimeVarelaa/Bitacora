@@ -1,5 +1,10 @@
 nav[role=navigation] {
-  background: #34373b;
+  background-image: linear-gradient(
+  185deg,
+  hsl(170deg 93% 33%) 0%,
+  hsl(167deg 51% 20%) 0%,
+  hsl(0deg 0% 0%) 100%
+);
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -12,13 +17,19 @@ nav[role=navigation] li a {
   color: #ddd;
   text-decoration: none;
   display: block;
-  padding: 0.7em;
+  padding: 1em;
 }
 
 ul, li {
   list-style-type: none;
   margin: 0;
   padding: 0;
+}
+
+li:hover{
+  transform: scaleX(1.1);
+  transform-origin: left;
+  transition: transform 0.3s;
 }
 
 i{

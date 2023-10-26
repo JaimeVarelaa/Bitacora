@@ -56,10 +56,12 @@ export class PrestamosComponent implements OnInit {
 
   filtrarEquipos(): void {
     this.equiposFiltrados = this.equipos.filter(equipo => {
-      return (
-        equipo.Tipo.toLowerCase().includes(this.filtroE.toLowerCase()) ||
-        equipo.Modelo.toLowerCase().includes(this.filtroE.toLowerCase())
-      );
+      if (equipo.Ocupado != "1") {
+        return (
+          equipo.Tipo.toLowerCase().includes(this.filtroE.toLowerCase()) ||
+          equipo.Modelo.toLowerCase().includes(this.filtroE.toLowerCase())
+        );
+      }
     });
   }
 
@@ -70,15 +72,15 @@ export class PrestamosComponent implements OnInit {
     this.equiposFiltrados = [];
   }
 
-  /*nombreUsuario(usuarioID: number): string {
-    const usuario = this.usuarios.find(user => user.id === usuarioID);
+  nombreEquipo(equipoID: number): string {
+    const equipo = this.equipos.find(equipo => equipo.id === equipoID);
 
-    if (usuario) {
-      return `${usuario.Nombres} ${usuario.App} ${usuario.Apm}`;
+    if (equipo) {
+      return `${equipo.Tipo} ${equipo.Modelo}`;
     }
 
     return 'Usuario no encontrado';
-  }*/
+  }
 
   obtenerUsuarios(): void {
 
@@ -95,11 +97,13 @@ export class PrestamosComponent implements OnInit {
 
   filtrarUsuarios(): void {
     this.usuariosFiltrados = this.usuarios.filter(usuario => {
-      return (
-        usuario.Nombres.toLowerCase().includes(this.filtro.toLowerCase()) ||
-        usuario.App.toLowerCase().includes(this.filtro.toLowerCase()) ||
-        usuario.Apm.toLowerCase().includes(this.filtro.toLowerCase())
-      );
+      if (usuario.Ocupado != "1") {
+        return (
+          usuario.Nombres.toLowerCase().includes(this.filtro.toLowerCase()) ||
+          usuario.App.toLowerCase().includes(this.filtro.toLowerCase()) ||
+          usuario.Apm.toLowerCase().includes(this.filtro.toLowerCase())
+        );
+      }
     });
   }
 
@@ -146,39 +150,42 @@ export class PrestamosComponent implements OnInit {
   }
 
   agregarPrestamo(): void {
+    this.usuarios.push(this.nuevoPrestamo);
+    this.enviarPrestamoAPIDB(this.nuevoPrestamo);
+  }
+
+  enviarPrestamoAPIDB(prestamo: any): void {
     this.mostrarOcultarSpinner(true);
     const fechaActual = new Date().toISOString();
     const fechaActualFormateada = this.formatDate(fechaActual);
-    if (this.validarNombreUsuario()) {
-      this.nuevoPrestamo.Dado = fechaActualFormateada;
+    this.nuevoPrestamo.Dado = fechaActualFormateada;
 
-      this.http.post('https://api-firebase-eight.vercel.app/postPrestamos', this.nuevoPrestamo)
-        .subscribe(
-          response => {
-            console.log('Prestamo agregado a la base de datos:', response);
-            this.router.navigate(['/prestamos']);
-            this.mostrarOcultarSpinner(false);
-            this.mostrarFormulario = false;
-          },
-          error => {
-            console.log('Error al agregar el prestamo a la base de datos:', error);
-            this.mostrarOcultarSpinner(false);
-          }
-        );
-    } else {
-      alert('El nombre no está registrado. Por favor, ingrese un nombre válido.');
-      this.mostrarOcultarSpinner(false);
-    }
+    this.http.post('https://api-firebase-eight.vercel.app/postPrestamos', prestamo)
+      .subscribe(
+        response => {
+          console.log('Prestamo agregado a la base de datos:', response);
+          this.router.navigate(['/prestamos']);
+          this.mostrarOcultarSpinner(false);
+          this.mostrarFormulario = false;
+        },
+        error => {
+          console.log('Error al agregar el prestamo a la base de datos:', error);
+          this.mostrarOcultarSpinner(false);
+          this.mostrarFormulario = false;
+        }
+      );
   }
 
   modificarPrestamo(prestamo: any) {
     this.nuevoPrestamo = { ...prestamo };
     this.mostrarFormulario = true;
+    this.router.navigate(['/prestamos']);
   }
 
   cancelar() {
     this.mostrarFormulario = false;
     this.nuevoPrestamo = {};
+    this.router.navigate(['/prestamos']);
   }
 
   actualizarPrestamo() {
@@ -236,6 +243,7 @@ export class PrestamosComponent implements OnInit {
           this.nuevoPrestamo = {};
           this.mostrarFormulario = false;
           this.mostrarOcultarSpinner(false);
+          this.router.navigate(['/prestamos']);
         },
         error => {
           console.log('Error al actualizar el prestamo en la base de datos:', error);

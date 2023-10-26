@@ -50,10 +50,12 @@ export class UsuariosComponent implements OnInit {
           console.log('Usuario agregado a la base de datos:', response);
           this.router.navigate(['/usuarios']);
           this.mostrarOcultarSpinner(false);
+          this.mostrarFormulario = false;
         },
         error => {
           console.log('Error al agregar el usuario a la base de datos:', error);
           this.mostrarOcultarSpinner(false);
+          this.mostrarFormulario = false;
         }
       );
   }

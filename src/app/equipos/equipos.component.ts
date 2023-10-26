@@ -39,18 +39,24 @@ export class EquiposComponent implements OnInit {
   }
 
   agregarEquipo(): void {
-    this.mostrarOcultarSpinner(true);
+    this.equipos.push(this.nuevoEquipo);
+    this.enviarUsuarioAPIDB(this.nuevoEquipo);
+  }
 
-    this.http.post('https://api-firebase-eight.vercel.app/postEquipos', this.nuevoEquipo)
+  enviarUsuarioAPIDB(usuario: any): void {
+    this.mostrarOcultarSpinner(true);
+    this.http.post('https://api-firebase-eight.vercel.app/postEquipos', usuario)
       .subscribe(
         response => {
           console.log('Equipo agregado a la base de datos:', response);
           this.router.navigate(['/equipos']);
           this.mostrarOcultarSpinner(false);
+          this.mostrarFormulario = false;
         },
         error => {
-          console.log('Error al agregar el equipo a la base de datos:', error);
+          console.log('Error al agregar el Equipo a la base de datos:', error);
           this.mostrarOcultarSpinner(false);
+          this.mostrarFormulario = false;
         }
       );
   }

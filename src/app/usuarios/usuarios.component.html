@@ -1,9 +1,14 @@
-<div class="container">
+<div class="add">
     <button (click)="mostrarFormulario = !mostrarFormulario">Agregar Usuario</button>
-
+</div>
+<div class="container">
     <div class="popup-background" *ngIf="mostrarFormulario">
         <div class="popup-content">
             <form *ngIf="mostrarFormulario" (ngSubmit)="nuevoUsuario.id ? actualizarUsuario() : agregarUsuario()">
+                <div class="form-group">
+                    <label for="nombres">Nombres</label>
+                    <input type="text" id="nombres" name="nombres" [(ngModel)]="nuevoUsuario.Nombres" required>
+                </div>
                 <div class="form-group">
                     <label for="app">Apellido Paterno</label>
                     <input type="text" id="app" name="app" [(ngModel)]="nuevoUsuario.App" required>
@@ -13,29 +18,27 @@
                     <input type="text" id="apm" name="apm" [(ngModel)]="nuevoUsuario.Apm" required>
                 </div>
                 <div class="form-group">
-                    <label for="nombres">Nombres</label>
-                    <input type="text" id="nombres" name="nombres" [(ngModel)]="nuevoUsuario.Nombres" required>
-                </div>
-                <div class="form-group">
                     <label for="dep">Departamento</label>
                     <input type="text" id="id" name="id" [(ngModel)]="nuevoUsuario.Dep" required>
                 </div>
-                <button type="submit">{{ nuevoUsuario.id ? 'Actualizar' : 'Agregar' }}</button>
-                <button (click)="cancelar()">Cancelar</button>
+                <div id="botones">
+                    <button type="submit">{{ nuevoUsuario.id ? 'Actualizar' : 'Agregar' }}</button>
+                    <button (click)="cancelar()">Cancelar</button>
+                </div>
             </form>
         </div>
     </div>
 
     <div class="card-container">
-        <div class="card" *ngFor="let usuario of usuarios">
+        <div class="card" *ngFor="let usuario of usuarios; let i = index">
             <div class="card-header">
-                {{ usuario.Nombres }}
+                {{ i+1 }}
             </div>
             <div class="card-body">
                 <p>Nombre: {{ usuario.Nombres }}</p>
-                <p>Departamento: {{ usuario.Dep }}</p>
                 <p>Apellido Paterno: {{ usuario.App }}</p>
                 <p>Apellido Materno: {{ usuario.Apm }}</p>
+                <p>Departamento: {{ usuario.Dep }}</p>
             </div>
             <div class="card-footer">
                 <button (click)="modificarUsuario(usuario)">Modificar</button>

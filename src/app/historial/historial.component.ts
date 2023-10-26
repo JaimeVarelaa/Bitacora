@@ -70,15 +70,15 @@ export class HistorialComponent implements OnInit {
     this.equiposFiltrados = [];
   }
 
-  /*nombreUsuario(usuarioID: number): string {
-    const usuario = this.usuarios.find(user => user.id === usuarioID);
+  nombreEquipo(equipoID: number): string {
+    const equipo = this.equipos.find(equipo => equipo.id === equipoID);
 
-    if (usuario) {
-      return `${usuario.Nombres} ${usuario.App} ${usuario.Apm}`;
+    if (equipo) {
+      return `${equipo.Tipo} ${equipo.Modelo}`;
     }
 
     return 'Usuario no encontrado';
-  }*/
+  }
 
   obtenerUsuarios(): void {
 
