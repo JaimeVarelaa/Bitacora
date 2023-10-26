@@ -1,14 +1,14 @@
 .add {
     position: absolute;
+}
 
-    button {
-        background-color: #06A288;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 3px;
-        cursor: pointer;
-    }
+.add button {
+    background-color: #06A288;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
 }
 
 form {
@@ -142,18 +142,19 @@ p {
     background: #00000000;
 }
 
-ul, li {
+ul,
+li {
     list-style-type: none;
     margin: 0;
     padding-left: 15px;
     font-size: 12px;
     margin-bottom: 15px;
-    color:#000000;
+    color: #000000;
     background-color: #cecece;
     border-bottom: 1px solid #000000;
-  }
+}
 
-  li:hover{
+li:hover {
     scale: 1.1;
     cursor: pointer;
-  }
+}
