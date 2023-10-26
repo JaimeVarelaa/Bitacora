@@ -1,0 +1,59 @@
+<div class="container">
+    <button (click)="mostrarFormulario = !mostrarFormulario">Agregar Préstamo</button>
+    <div class="popup-background" *ngIf="mostrarFormulario">
+        <div class="popup-content">
+            <form *ngIf="mostrarFormulario" (ngSubmit)="nuevoPrestamo.id ? actualizarPrestamo() : agregarPrestamo()">
+                <div class="form-group">
+                    <input type="text" id="filtro" name="filtro" [(ngModel)]="filtro" (keyup)="filtrarUsuarios()">
+                </div>
+                <div class="filtered-users" *ngIf="usuariosFiltrados.length > 0">
+                    <ul class="user-list">
+                        <li *ngFor="let usuario of usuariosFiltrados" (click)="seleccionarUsuario(usuario)">
+                            {{ usuario.Nombres }} {{ usuario.App }} {{ usuario.Apm }}
+                        </li>
+                    </ul>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="filtroE" name="filtroE" [(ngModel)]="filtroE" (keyup)="filtrarEquipos()">
+                </div>
+                <div class="filtered-users" *ngIf="equiposFiltrados.length > 0">
+                    <ul class="user-list">
+                        <li *ngFor="let equipo of equiposFiltrados" (click)="seleccionarEquipo(equipo)">
+                            {{ equipo.Tipo }} {{equipo.Modelo}}
+                        </li>
+                    </ul>
+                </div>
+                <button type="submit" class="btn">{{ nuevoPrestamo.id ? 'Actualizar' : 'Agregar' }}</button>
+                <button (click)="cancelar()" class="btn">Cancelar</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card-container">
+        <div *ngFor="let prestamo of prestamos">
+            <div *ngIf="prestamo.Recuperado!=null">
+                <div class="card">
+                    <div class="card-header">
+                        {{ prestamo.id }}
+                    </div>
+                    <div class="card-body">
+                        <p>Usuario: {{ nombreUsuario(prestamo.IDUsuario) }}</p>
+                        <p>Equipo: {{ prestamo.IDEquipo }}</p>
+                        <p>Dado: {{ prestamo.Dado }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <button (click)="modificarPrestamo(prestamo)" class="btn">Modificar</button>
+                        <button (click)="eliminarPrestamo(prestamo)" class="btn">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="spinner-container" *ngIf="mostrarSpinner">
+        <div class="spinner">
+            <img src="../../assets/spinner.gif" alt="Cargando...">
+        </div>
+    </div>
+</div>

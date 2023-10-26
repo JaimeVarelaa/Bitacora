@@ -11,8 +11,9 @@ export class LoginComponent {
 
   username: string = '';
   password: string = '';
+  loginFailed: boolean = false;
 
-  constructor(private cookieService: CookieService) {}
+  constructor(private cookieService: CookieService) { }
 
   verificarUsuario() {
     if (this.username === 'admin' && this.password === 'admin') {
@@ -22,6 +23,11 @@ export class LoginComponent {
     } else {
       this.username = '';
       this.password = '';
-      }
+      this.loginFailed = true;
+
+      setTimeout(() => {
+        this.loginFailed = false;
+      }, 1000);
+    }
   }
 }

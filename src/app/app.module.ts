@@ -12,6 +12,8 @@ import { FormsModule } from '@angular/forms';
 
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
+import { PrestamosComponent } from './prestamos/prestamos.component';
+import { HistorialComponent } from './historial/historial.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
     LoginComponent,
     SidebarComponent,
     UsuariosComponent,
-    EquiposComponent
+    EquiposComponent,
+    PrestamosComponent,
+    HistorialComponent
   ],
   imports: [
     BrowserModule,

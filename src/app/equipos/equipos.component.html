@@ -1,1 +1,51 @@
-<p>equipos works!</p>
+<div class="container">
+    <button (click)="mostrarFormulario = !mostrarFormulario">Agregar Equipo</button>
+    <div class="popup-background" *ngIf="mostrarFormulario">
+        <div class="popup-content">
+            <form *ngIf="mostrarFormulario" (ngSubmit)="nuevoEquipo.id ? actualizarEquipo() : agregarEquipo()">
+                <div class="form-group">
+                    <label for="modelo">Modelo</label>
+                    <input type="text" id="modelo" name="modelo" [(ngModel)]="nuevoEquipo.Modelo" required>
+                </div>
+                <div class="form-group">
+                    <label for="marca">Marca</label>
+                    <input type="text" id="marca" name="marca" [(ngModel)]="nuevoEquipo.Marca" required>
+                </div>
+                <div class="form-group">
+                    <label for="noSerie">No. de Serie</label>
+                    <input type="text" id="noSerie" name="noSerie" [(ngModel)]="nuevoEquipo.No_Serie" required>
+                </div>
+                <div class="form-group">
+                    <label for="tipo">Tipo</label>
+                    <input type="text" id="tipo" name="tipo" [(ngModel)]="nuevoEquipo.Tipo" required>
+                </div>
+                <button type="submit">{{ nuevoEquipo.id ? 'Actualizar' : 'Agregar' }}</button>
+                <button (click)="cancelar()">Cancelar</button>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="card-container">
+        <div class="card" *ngFor="let equipo of equipos">
+            <div class="card-header">
+                {{ equipo.Modelo }}
+            </div>
+            <div class="card-body">
+                <p>ID: {{ equipo.id }}</p>
+                <p>Marca: {{ equipo.Marca }}</p>
+                <p>No. de Serie: {{ equipo.No_Serie }}</p>
+                <p>Tipo: {{ equipo.Tipo }}</p>
+            </div>
+            <div class="card-footer">
+                <button (click)="modificarEquipo(equipo)">Modificar</button>
+                <button (click)="eliminarEquipo(equipo)">Eliminar</button>
+            </div>
+        </div>
+    </div>
+    <div class="spinner-container" *ngIf="mostrarSpinner">
+        <div class="spinner">
+            <img src="../../assets/spinner.gif" alt="Cargando...">
+        </div>
+    </div>
+</div>

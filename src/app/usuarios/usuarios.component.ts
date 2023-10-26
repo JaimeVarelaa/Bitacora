@@ -12,6 +12,7 @@ export class UsuariosComponent implements OnInit {
   usuarios: any[] = [];
   nuevoUsuario: any = {};
   mostrarFormulario = false;
+  mostrarSpinner = false;
 
   constructor(private http: HttpClient, private pagina: PaginaService, private router: Router) {
     pagina.setValor('usuarios');
@@ -22,13 +23,16 @@ export class UsuariosComponent implements OnInit {
   }
 
   obtenerUsuarios(): void {
+    this.mostrarOcultarSpinner(true);
     this.http.get<any[]>('https://api-firebase-eight.vercel.app/getUsuarios')
       .subscribe(
         response => {
           this.usuarios = response;
+          this.mostrarOcultarSpinner(false);
         },
         error => {
           console.log('Error al obtener los usuarios:', error);
+          this.mostrarOcultarSpinner(false);
         }
       );
   }
@@ -39,14 +43,17 @@ export class UsuariosComponent implements OnInit {
   }
 
   enviarUsuarioAPIDB(usuario: any): void {
+    this.mostrarOcultarSpinner(true);
     this.http.post('https://api-firebase-eight.vercel.app/postUsuarios', usuario)
       .subscribe(
         response => {
           console.log('Usuario agregado a la base de datos:', response);
           this.router.navigate(['/usuarios']);
+          this.mostrarOcultarSpinner(false);
         },
         error => {
           console.log('Error al agregar el usuario a la base de datos:', error);
+          this.mostrarOcultarSpinner(false);
         }
       );
   }
@@ -56,7 +63,13 @@ export class UsuariosComponent implements OnInit {
     this.mostrarFormulario = true;
   }
 
+  cancelar() {
+    this.mostrarFormulario = false;
+    this.nuevoUsuario = {};
+  }
+
   actualizarUsuario() {
+    this.mostrarOcultarSpinner(true);
     this.http.put('https://api-firebase-eight.vercel.app/putUsuarios/' + this.nuevoUsuario.id, this.nuevoUsuario)
       .subscribe(
         response => {
@@ -64,14 +77,17 @@ export class UsuariosComponent implements OnInit {
           this.nuevoUsuario = {};
           this.mostrarFormulario = false;
           this.obtenerUsuarios();
+          this.mostrarOcultarSpinner(false);
         },
         error => {
           console.log('Error al actualizar el usuario en la base de datos:', error);
+          this.mostrarOcultarSpinner(false);
         }
       );
   }
 
   eliminarUsuario(usuario: any) {
+    this.mostrarOcultarSpinner(true);
     this.http.delete('https://api-firebase-eight.vercel.app/deleteUsuarios/' + usuario.id)
       .subscribe(
         response => {
@@ -80,10 +96,16 @@ export class UsuariosComponent implements OnInit {
           if (index !== -1) {
             this.usuarios.splice(index, 1);
           }
+          this.mostrarOcultarSpinner(false);
         },
         error => {
           console.log('Error al eliminar el usuario de la base de datos:', error);
+          this.mostrarOcultarSpinner(false);
         }
       );
+  }
+
+  mostrarOcultarSpinner(mostrar: boolean) {
+    this.mostrarSpinner = mostrar;
   }
 }

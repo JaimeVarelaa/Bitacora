@@ -72,6 +72,7 @@
 }
 
 .login-box a:hover {
+  cursor: pointer;
   background: #00000000;
   border-radius: 5px;
   box-shadow: 0 0 10px #03e9f4,
@@ -167,4 +168,20 @@
   background-position: center;
   background-attachment: fixed;
   height: 100vh;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-10px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(10px);
+  }
+}
+
+.shake {
+  animation: shake 0.5s;
 }

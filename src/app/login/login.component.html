@@ -2,15 +2,15 @@
   <div class="login-box">
     <h2>Iniciar Sesión</h2>
     <form (submit)="verificarUsuario()">
-      <div class="user-box">
+      <div class="user-box" [ngClass]="{'shake': loginFailed}">
         <input type="text" name="nombre" required [(ngModel)]="username">
         <label>Usuario</label>
       </div>
-      <div class="user-box">
+      <div class="user-box" [ngClass]="{'shake': loginFailed}">
         <input type="password" name="password" required [(ngModel)]="password">
         <label>Contraseña</label>
       </div>
-      <a href="#" (click)="verificarUsuario()">
+      <a (click)="verificarUsuario()">
         <span></span>
         <span></span>
         <span></span>

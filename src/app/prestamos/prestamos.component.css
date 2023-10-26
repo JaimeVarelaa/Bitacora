@@ -127,3 +127,29 @@ form button {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
+
+.filtered-users {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 10px;
+    max-height: 150px; /* Ajusta la altura máxima según tus preferencias */
+    overflow-y: auto; /* Agrega una barra de desplazamiento vertical si es necesario */
+}
+
+.filtered-users ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.filtered-users ul li {
+    cursor: pointer;
+    padding: 5px;
+    transition: background-color 0.2s; /* Agrega una transición de color de fondo en hover */
+}
+
+.filtered-users ul li:hover {
+    background-color: #007bff; /* Cambia el color de fondo al pasar el cursor */
+    color: white;
+}

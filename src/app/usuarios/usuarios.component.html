@@ -1,49 +1,51 @@
 <div class="container">
     <button (click)="mostrarFormulario = !mostrarFormulario">Agregar Usuario</button>
-  
-    <form *ngIf="mostrarFormulario" (ngSubmit)="nuevoUsuario.id ? actualizarUsuario() : agregarUsuario()">
-      <div class="form-group">
-        <label for="app">Apellido Paterno</label>
-        <input type="text" id="app" name="app" [(ngModel)]="nuevoUsuario.App" required>
-      </div>
-      <div class="form-group">
-        <label for="apm">Apellido Materno</label>
-        <input type="text" id="apm" name="apm" [(ngModel)]="nuevoUsuario.Apm" required>
-      </div>
-      <div class="form-group">
-        <label for="nombres">Nombres</label>
-        <input type="text" id="nombres" name="nombres" [(ngModel)]="nuevoUsuario.Nombres" required>
-      </div>
-      <div class="form-group">
-        <label for="dep">Departamento</label>
-        <input type="text" id="id" name="id" [(ngModel)]="nuevoUsuario.Dep" required>
-      </div>
-      <button type="submit">{{ nuevoUsuario.id ? 'Actualizar' : 'Agregar' }}</button>
-    </form>
-  
-    <table class="table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Departamento</th>
-            <th>Apellido Paterno</th>
-            <th>Apellido Materno</th>
-            <th>Nombre</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let usuario of usuarios">
-            <td>{{ usuario.id }}</td>
-            <td>{{ usuario.Dep }}</td>
-            <td>{{ usuario.App }}</td>
-            <td>{{ usuario.Apm }}</td>
-            <td>{{ usuario.Nombres }}</td>
-            <td>
-              <button (click)="modificarUsuario(usuario)">Modificar</button>
-              <button (click)="eliminarUsuario(usuario)">Eliminar</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>      
+
+    <div class="popup-background" *ngIf="mostrarFormulario">
+        <div class="popup-content">
+            <form *ngIf="mostrarFormulario" (ngSubmit)="nuevoUsuario.id ? actualizarUsuario() : agregarUsuario()">
+                <div class="form-group">
+                    <label for="app">Apellido Paterno</label>
+                    <input type="text" id="app" name="app" [(ngModel)]="nuevoUsuario.App" required>
+                </div>
+                <div class="form-group">
+                    <label for="apm">Apellido Materno</label>
+                    <input type="text" id="apm" name="apm" [(ngModel)]="nuevoUsuario.Apm" required>
+                </div>
+                <div class="form-group">
+                    <label for="nombres">Nombres</label>
+                    <input type="text" id="nombres" name="nombres" [(ngModel)]="nuevoUsuario.Nombres" required>
+                </div>
+                <div class="form-group">
+                    <label for="dep">Departamento</label>
+                    <input type="text" id="id" name="id" [(ngModel)]="nuevoUsuario.Dep" required>
+                </div>
+                <button type="submit">{{ nuevoUsuario.id ? 'Actualizar' : 'Agregar' }}</button>
+                <button (click)="cancelar()">Cancelar</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card-container">
+        <div class="card" *ngFor="let usuario of usuarios">
+            <div class="card-header">
+                {{ usuario.Nombres }}
+            </div>
+            <div class="card-body">
+                <p>Nombre: {{ usuario.Nombres }}</p>
+                <p>Departamento: {{ usuario.Dep }}</p>
+                <p>Apellido Paterno: {{ usuario.App }}</p>
+                <p>Apellido Materno: {{ usuario.Apm }}</p>
+            </div>
+            <div class="card-footer">
+                <button (click)="modificarUsuario(usuario)">Modificar</button>
+                <button (click)="eliminarUsuario(usuario)">Eliminar</button>
+            </div>
+        </div>
+    </div>
+    <div class="spinner-container" *ngIf="mostrarSpinner">
+        <div class="spinner">
+            <img src="../../assets/spinner.gif" alt="Cargando...">
+        </div>
+    </div>
 </div>
