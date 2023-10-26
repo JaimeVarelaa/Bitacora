@@ -12,14 +12,15 @@ export class AppComponent implements OnInit {
 
   @Output() loginSuccess = new EventEmitter<boolean>();
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
     this.authService.checkLoginStatus();
     this.isLoggedIn = this.authService.isLoggedIn;
   }
 
-  handleLogin(success: boolean) {if (success) {
+  handleLogin(success: boolean) {
+    if (success) {
       this.isLoggedIn = true;
     }
   }

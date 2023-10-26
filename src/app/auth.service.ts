@@ -11,20 +11,21 @@ export class AuthService {
 
   checkLoginStatus(): void {
     const tokenExists = this.cookieService.check('authToken');
-
-    if (tokenExists) { this.isLoggedIn = true;
+    
+    if (tokenExists) {
+      this.isLoggedIn = true;
     }
   }
 
-    login(username: string, password: string): boolean {
-      if (username === 'admin' && password === 'admin') {
-        this.isLoggedIn = true;
-        return true;
-      }
-      return false;
+  login(username: string, password: string): boolean {
+    if (username === 'admin' && password === 'admin') {
+      this.isLoggedIn = true;
+      return true;
     }
-
-    logout() {
-      this.isLoggedIn = false;
-    }
+    return false;
   }
+
+  logout() {
+    this.isLoggedIn = false;
+  }
+}
