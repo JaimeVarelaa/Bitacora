@@ -31,14 +31,15 @@
 
     <div class="card-container">
         <div class="card" *ngFor="let usuario of usuarios; let i = index">
-            <div class="card-header">
-                {{ i+1 }}
+            <div class="card-header" *ngIf="usuario.Ocupado == 1" [ngStyle]="{'background-color': '#dc3545'}">
+            </div>
+            <div class="card-header" *ngIf="usuario.Ocupado != 1" [ngStyle]="{'background-color': '#30ce45'}">
             </div>
             <div class="card-body">
-                <p>Nombre: {{ usuario.Nombres }}</p>
-                <p>Apellido Paterno: {{ usuario.App }}</p>
-                <p>Apellido Materno: {{ usuario.Apm }}</p>
-                <p>Departamento: {{ usuario.Dep }}</p>
+                <p><strong>Nombre: </strong>{{ usuario.Nombres }}</p>
+                <p><strong>Apellido Paterno: </strong>{{ usuario.App }}</p>
+                <p><strong>Apellido Materno: </strong>{{ usuario.Apm }}</p>
+                <p><strong>Departamento: </strong>{{ usuario.Dep }}</p>
             </div>
             <div class="card-footer">
                 <button (click)="modificarUsuario(usuario)">Modificar</button>

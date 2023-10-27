@@ -1,8 +1,14 @@
 #content {
     display: flex;
-    justify-content: flex-start;
-}
-
-app-sidebar{
-    width: 10%;
-}
+    flex-direction: row;
+  }
+  
+  app-sidebar {
+    min-width: 200px;
+    max-width: 250px;
+  }
+  
+  .router-container {
+    flex: 1;
+  }
+  

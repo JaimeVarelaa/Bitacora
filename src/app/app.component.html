@@ -1,5 +1,7 @@
 <app-login *ngIf="!isLoggedIn" (loginEvent)="handleLogin($event)"></app-login>
 <div id="content">
     <app-sidebar *ngIf="isLoggedIn"></app-sidebar>
-    <router-outlet *ngIf="isLoggedIn"></router-outlet>
+    <div class="router-container" *ngIf="isLoggedIn">
+        <router-outlet></router-outlet>
+    </div>
 </div>

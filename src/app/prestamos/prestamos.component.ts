@@ -14,14 +14,13 @@ export class PrestamosComponent implements OnInit {
   prestamos: any[] = [];
   usuarios: any[] = [];
   equipos: any[] = [];
+  usuariosNoOcupados: any[] = []
+  equiposNoOcupados: any[] = []
+  prestamosVigentes: any[] = [];
   nuevoPrestamo: any = {};
   mostrarFormulario = false;
   mostrarSpinner = false;
-  filtro: string = '';
-  filtroE: string = '';
-  equiposFiltrados: any[] = [];
   equiposSeleccionado: any = null;
-  usuariosFiltrados: any[] = [];
   usuarioSeleccionado: any = null;
 
   constructor(
@@ -47,29 +46,12 @@ export class PrestamosComponent implements OnInit {
       .subscribe(
         response => {
           this.equipos = response;
+          this.equiposNoOcupados = this.equipos.filter(equipo => equipo.Ocupado != 1);
         },
         error => {
           console.log('Error al obtener los equipos:', error);
         }
       );
-  }
-
-  filtrarEquipos(): void {
-    this.equiposFiltrados = this.equipos.filter(equipo => {
-      if (equipo.Ocupado != "1") {
-        return (
-          equipo.Tipo.toLowerCase().includes(this.filtroE.toLowerCase()) ||
-          equipo.Modelo.toLowerCase().includes(this.filtroE.toLowerCase())
-        );
-      }
-    });
-  }
-
-  seleccionarEquipo(equipo: any): void {
-    this.nuevoPrestamo.IDEquipo = equipo.id;
-    this.equiposSeleccionado = equipo;
-    this.filtroE = `${equipo.Tipo} ${equipo.Modelo}`;
-    this.equiposFiltrados = [];
   }
 
   nombreEquipo(equipoID: number): string {
@@ -88,30 +70,12 @@ export class PrestamosComponent implements OnInit {
       .subscribe(
         response => {
           this.usuarios = response;
+          this.usuariosNoOcupados = this.usuarios.filter(usuario => usuario.Ocupado != 1);
         },
         error => {
           console.log('Error al obtener los usuarios:', error);
         }
       );
-  }
-
-  filtrarUsuarios(): void {
-    this.usuariosFiltrados = this.usuarios.filter(usuario => {
-      if (usuario.Ocupado != "1") {
-        return (
-          usuario.Nombres.toLowerCase().includes(this.filtro.toLowerCase()) ||
-          usuario.App.toLowerCase().includes(this.filtro.toLowerCase()) ||
-          usuario.Apm.toLowerCase().includes(this.filtro.toLowerCase())
-        );
-      }
-    });
-  }
-
-  seleccionarUsuario(usuario: any): void {
-    this.nuevoPrestamo.IDUsuario = usuario.id;
-    this.usuarioSeleccionado = usuario;
-    this.filtro = `${usuario.Nombres} ${usuario.App} ${usuario.Apm}`;
-    this.usuariosFiltrados = [];
   }
 
   nombreUsuario(usuarioID: number): string {
@@ -124,22 +88,14 @@ export class PrestamosComponent implements OnInit {
     return 'Usuario no encontrado';
   }
 
-  validarNombreUsuario(): boolean {
-    const nombreIngresado = this.filtro.trim();
-    return this.usuarios.some(usuario =>
-      `${usuario.Nombres} ${usuario.App} ${usuario.Apm}` === nombreIngresado
-    );
-  }
-
-
 
   obtenerPrestamos(): void {
     this.mostrarOcultarSpinner(true);
-
     this.http.get<any[]>('https://api-firebase-eight.vercel.app/getPrestamos')
       .subscribe(
         response => {
           this.prestamos = response;
+          this.filtrarPrestamos();
           this.mostrarOcultarSpinner(false);
         },
         error => {
@@ -149,12 +105,19 @@ export class PrestamosComponent implements OnInit {
       );
   }
 
-  agregarPrestamo(): void {
-    this.usuarios.push(this.nuevoPrestamo);
-    this.enviarPrestamoAPIDB(this.nuevoPrestamo);
+  filtrarPrestamos() {
+    this.prestamosVigentes = this.prestamos.filter(prestamos => prestamos.Recuperado == null);
   }
 
-  enviarPrestamoAPIDB(prestamo: any): void {
+
+  agregarPrestamo(): void {
+    this.prestamos.push(this.nuevoPrestamo);
+    this.actualizarUsuario(this.nuevoPrestamo.IDUsuario, 1);
+    this.actualizarEquipo(this.nuevoPrestamo.IDEquipo, 1);
+    this.enviarPrestamo(this.nuevoPrestamo);
+  }
+
+  enviarPrestamo(prestamo: any): void {
     this.mostrarOcultarSpinner(true);
     const fechaActual = new Date().toISOString();
     const fechaActualFormateada = this.formatDate(fechaActual);
@@ -164,9 +127,10 @@ export class PrestamosComponent implements OnInit {
       .subscribe(
         response => {
           console.log('Prestamo agregado a la base de datos:', response);
-          this.router.navigate(['/prestamos']);
+          this.actualizarUsuario(this.nuevoPrestamo.IDUsuario, 1);
           this.mostrarOcultarSpinner(false);
           this.mostrarFormulario = false;
+          window.location.reload();
         },
         error => {
           console.log('Error al agregar el prestamo a la base de datos:', error);
@@ -236,6 +200,10 @@ export class PrestamosComponent implements OnInit {
     const fechaActual = new Date().toISOString();
     const fechaActualFormateada = this.formatDate(fechaActual);
     this.nuevoPrestamo.Recuperado = fechaActualFormateada;
+    const usuarioID = prestamo.IDUsuario;
+    this.actualizarUsuario(usuarioID, 0);
+    const equipoID = prestamo.IDEquipo;
+    this.actualizarEquipo(equipoID, 0);
     this.http.put('https://api-firebase-eight.vercel.app/putPrestamos/' + this.nuevoPrestamo.id, this.nuevoPrestamo)
       .subscribe(
         response => {
@@ -243,13 +211,47 @@ export class PrestamosComponent implements OnInit {
           this.nuevoPrestamo = {};
           this.mostrarFormulario = false;
           this.mostrarOcultarSpinner(false);
-          this.router.navigate(['/prestamos']);
+          window.location.reload();
         },
         error => {
           console.log('Error al actualizar el prestamo en la base de datos:', error);
           this.mostrarOcultarSpinner(false);
         }
       );
+  }
+
+  actualizarUsuario(IDU: string, ocupado: number) {
+    const usuario = this.usuarios.find(user => user.id === IDU);
+
+    if (usuario) {
+      usuario.Ocupado = ocupado;
+      this.http.put('https://api-firebase-eight.vercel.app/putUsuarios/' + usuario.id, usuario)
+        .subscribe(
+          response => {
+            console.log('Usuario actualizado en la base de datos:', response);
+          },
+          error => {
+            console.log('Error al actualizar el usuario en la base de datos:', error);
+          }
+        );
+    }
+  }
+
+  actualizarEquipo(IDE: string, ocupado: number) {
+    const equipo = this.equipos.find(equip => equip.id === IDE);
+
+    if (equipo) {
+      equipo.Ocupado = ocupado;
+      this.http.put('https://api-firebase-eight.vercel.app/putEquipos/' + equipo.id, equipo)
+        .subscribe(
+          response => {
+            console.log('Equipo actualizado en la base de datos:', response);
+          },
+          error => {
+            console.log('Error al actualizar el equipo en la base de datos:', error);
+          }
+        );
+    }
   }
 
   formatDate(isoDate: string): string {

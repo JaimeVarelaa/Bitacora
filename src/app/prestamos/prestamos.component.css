@@ -1,14 +1,27 @@
 .add {
-    position: absolute;
+    margin-top: 20px;
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    background-color: #0000005e;
 }
 
 .add button {
     background-color: #06A288;
     color: white;
+    font-weight: 700;
+    font-size: 20px;
     padding: 10px 20px;
     border: none;
     border-radius: 3px;
     cursor: pointer;
+}
+
+.add button:hover {
+    background-color: white;
+    color: #06A288;
 }
 
 form {
@@ -55,12 +68,13 @@ form button {
     flex-wrap: wrap;
     justify-content: space-around;
     margin: 30px;
+    height: 250px;
 }
 
 .card {
-    width: 250px;
+    width: 280px;
     margin: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #cccccc;
     border-radius: 5px;
     box-shadow: 0px 2px 5px #000000;
     background-color: #fff;
@@ -91,6 +105,7 @@ p {
     border: none;
     border-radius: 3px;
     cursor: pointer;
+    margin-bottom: 20px;
 }
 
 .card-footer {
@@ -118,10 +133,8 @@ p {
 
 .popup-content {
     background: rgba(0, 0, 0, .3);
-    ;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgb(255, 255, 255);
     z-index: 1000;
 }
 
@@ -142,19 +155,15 @@ p {
     background: #00000000;
 }
 
-ul,
-li {
-    list-style-type: none;
-    margin: 0;
-    padding-left: 15px;
-    font-size: 12px;
-    margin-bottom: 15px;
-    color: #000000;
-    background-color: #cecece;
-    border-bottom: 1px solid #000000;
+form select {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 10px;
 }
 
-li:hover {
-    scale: 1.1;
-    cursor: pointer;
+form select+label {
+    margin-top: 10px;
+    font-weight: bold;
 }

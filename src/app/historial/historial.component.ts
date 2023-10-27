@@ -14,6 +14,7 @@ export class HistorialComponent implements OnInit {
   prestamos: any[] = [];
   usuarios: any[] = [];
   equipos: any[] = [];
+  prestamosFinalizados: any[] = [];
   nuevoPrestamo: any = {};
   mostrarFormulario = false;
   mostrarSpinner = false;
@@ -54,22 +55,6 @@ export class HistorialComponent implements OnInit {
       );
   }
 
-  filtrarEquipos(): void {
-    this.equiposFiltrados = this.equipos.filter(equipo => {
-      return (
-        equipo.Tipo.toLowerCase().includes(this.filtroE.toLowerCase()) ||
-        equipo.Modelo.toLowerCase().includes(this.filtroE.toLowerCase())
-      );
-    });
-  }
-
-  seleccionarEquipo(equipo: any): void {
-    this.nuevoPrestamo.IDEquipo = equipo.id;
-    this.equiposSeleccionado = equipo;
-    this.filtroE = `${equipo.Tipo} ${equipo.Modelo}`;
-    this.equiposFiltrados = [];
-  }
-
   nombreEquipo(equipoID: number): string {
     const equipo = this.equipos.find(equipo => equipo.id === equipoID);
 
@@ -93,23 +78,6 @@ export class HistorialComponent implements OnInit {
       );
   }
 
-  filtrarUsuarios(): void {
-    this.usuariosFiltrados = this.usuarios.filter(usuario => {
-      return (
-        usuario.Nombres.toLowerCase().includes(this.filtro.toLowerCase()) ||
-        usuario.App.toLowerCase().includes(this.filtro.toLowerCase()) ||
-        usuario.Apm.toLowerCase().includes(this.filtro.toLowerCase())
-      );
-    });
-  }
-
-  seleccionarUsuario(usuario: any): void {
-    this.nuevoPrestamo.IDUsuario = usuario.id;
-    this.usuarioSeleccionado = usuario;
-    this.filtro = `${usuario.Nombres} ${usuario.App} ${usuario.Apm}`;
-    this.usuariosFiltrados = [];
-  }
-
   nombreUsuario(usuarioID: number): string {
     const usuario = this.usuarios.find(user => user.id === usuarioID);
 
@@ -127,8 +95,6 @@ export class HistorialComponent implements OnInit {
     );
   }
 
-
-
   obtenerPrestamos(): void {
     this.mostrarOcultarSpinner(true);
 
@@ -136,6 +102,7 @@ export class HistorialComponent implements OnInit {
       .subscribe(
         response => {
           this.prestamos = response;
+          this.filtrarPrestamos();
           this.mostrarOcultarSpinner(false);
         },
         error => {
@@ -144,6 +111,10 @@ export class HistorialComponent implements OnInit {
         }
       );
   }
+
+  filtrarPrestamos() {
+    this.prestamosFinalizados = this.prestamos.filter(prestamos => prestamos.Recuperado != null);
+}
 
   agregarPrestamo(): void {
     this.mostrarOcultarSpinner(true);
@@ -211,6 +182,7 @@ export class HistorialComponent implements OnInit {
             this.prestamos.splice(index, 1);
           }
           this.mostrarOcultarSpinner(false);
+          window.location.reload();
         },
         error => {
           console.log('Error al eliminar el prestamo de la base de datos:', error);

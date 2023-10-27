@@ -7,25 +7,24 @@
             <form *ngIf="mostrarFormulario" (ngSubmit)="nuevoPrestamo.id ? actualizarPrestamo() : agregarPrestamo()">
                 <div class="form-group">
                     <label for="nombres">Nombres</label>
-                    <input type="text" id="filtro" name="filtro" [(ngModel)]="filtro" (keyup)="filtrarUsuarios()">
+                    <select id="filtro" name="filtro" [(ngModel)]="nuevoPrestamo.IDUsuario">
+                        <option *ngFor="let usuarion of usuariosNoOcupados" [value]="usuarion.id">
+                            <div *ngIf="usuarion.Ocupado != 1">
+                                {{ usuarion.Nombres }} {{ usuarion.App }} {{ usuarion.Apm }}
+                            </div>
+                        </option>
+                    </select>
                 </div>
-                <div class="filtered" *ngIf="usuariosFiltrados.length > 0">
-                    <ul class="user-list">
-                        <li *ngFor="let usuario of usuariosFiltrados" (click)="seleccionarUsuario(usuario)">
-                            {{ usuario.Nombres }} {{ usuario.App }} {{ usuario.Apm }}
-                        </li>
-                    </ul>
-                </div>
+
                 <div class="form-group">
                     <label for="equipo">Equipo</label>
-                    <input type="text" id="filtroE" name="filtroE" [(ngModel)]="filtroE" (keyup)="filtrarEquipos()">
-                </div>
-                <div class="filtered" *ngIf="equiposFiltrados.length > 0">
-                    <ul class="user-list">
-                        <li *ngFor="let equipo of equiposFiltrados" (click)="seleccionarEquipo(equipo)">
-                            {{ equipo.Tipo }} {{equipo.Modelo}}
-                        </li>
-                    </ul>
+                    <select id="filtroE" name="filtroE" [(ngModel)]="nuevoPrestamo.IDEquipo">
+                        <option *ngFor="let equipon of equiposNoOcupados" [value]="equipon.id">
+                            <div *ngIf="equipon.Ocupado != 1">
+                                {{ equipon.Tipo }} {{ equipon.Modelo }}
+                            </div>
+                        </option>
+                    </select>
                 </div>
                 <div id="botones">
                     <button type="submit" class="btn">{{ nuevoPrestamo.id ? 'Actualizar' : 'Agregar' }}</button>
@@ -36,20 +35,18 @@
     </div>
 
     <div class="card-container">
-        <div *ngFor="let prestamo of prestamos; let i = index">
-            <div *ngIf="prestamo.Recuperado==null">
-                <div class="card">
-                    <div class="card-header">
-                        {{ i+1 }}
-                    </div>
-                    <div class="card-body">
-                        <p>Usuario: {{ nombreUsuario(prestamo.IDUsuario) }}</p>
-                        <p>Equipo: {{ nombreEquipo(prestamo.IDEquipo) }}</p>
-                        <p>Dado: {{ prestamo.Dado }}</p>
-                    </div>
-                    <div class="card-footer">
-                        <button (click)="recibirPrestamo(prestamo)" class="btn">Recibir</button>
-                    </div>
+        <div *ngFor="let prestamov of prestamosVigentes; let i = index">
+            <div class="card">
+                <div class="card-header">
+                    {{ i+1 }}
+                </div>
+                <div class="card-body">
+                    <p>Usuario: {{ nombreUsuario(prestamov.IDUsuario) }}</p>
+                    <p>Equipo: {{ nombreEquipo(prestamov.IDEquipo) }}</p>
+                    <p>Dado: {{ prestamov.Dado }}</p>
+                </div>
+                <div class="card-footer">
+                    <button (click)="recibirPrestamo(prestamov)" class="btn">Recibir</button>
                 </div>
             </div>
         </div>

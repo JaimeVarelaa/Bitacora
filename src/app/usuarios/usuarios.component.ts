@@ -39,10 +39,10 @@ export class UsuariosComponent implements OnInit {
 
   agregarUsuario(): void {
     this.usuarios.push(this.nuevoUsuario);
-    this.enviarUsuarioAPIDB(this.nuevoUsuario);
+    this.enviarUsuario(this.nuevoUsuario);
   }
 
-  enviarUsuarioAPIDB(usuario: any): void {
+  enviarUsuario(usuario: any): void {
     this.mostrarOcultarSpinner(true);
     this.http.post('https://api-firebase-eight.vercel.app/postUsuarios', usuario)
       .subscribe(

@@ -32,8 +32,9 @@
 
     <div class="card-container">
         <div class="card" *ngFor="let equipo of equipos; let i = index">
-            <div class="card-header">
-                {{ i+1 }}
+            <div class="card-header" *ngIf="equipo.Ocupado == 1" [ngStyle]="{'background-color': '#dc3545'}">
+            </div>
+            <div class="card-header" *ngIf="equipo.Ocupado != 1" [ngStyle]="{'background-color': '#30ce45'}">
             </div>
             <div class="card-body">
                 <p>Marca: {{ equipo.Marca }}</p>

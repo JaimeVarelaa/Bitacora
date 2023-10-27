@@ -1,19 +1,17 @@
 <div class="card-container">
-    <div *ngFor="let prestamo of prestamos; let i = index">
-        <div *ngIf="prestamo.Recuperado!=null">
-            <div class="card">
-                <div class="card-header">
-                    {{ i+1 }}
-                </div>
-                <div class="card-body">
-                    <p>Usuario: {{ nombreUsuario(prestamo.IDUsuario) }}</p>
-                    <p>Equipo: {{ nombreEquipo(prestamo.IDEquipo) }}</p>
-                    <p>Dado: {{ prestamo.Dado }}</p>
-                    <p>Recibido: {{prestamo.Recuperado}}</p>
-                </div>
-                <div class="card-footer">
-                    <button (click)="eliminarPrestamo(prestamo)" class="btn">Eliminar</button>
-                </div>
+    <div *ngFor="let prestamof of prestamosFinalizados; let i = index">
+        <div class="card">
+            <div class="card-header">
+                {{ i+1 }}
+            </div>
+            <div class="card-body">
+                <p>Usuario: {{ nombreUsuario(prestamof.IDUsuario) }}</p>
+                <p>Equipo: {{ nombreEquipo(prestamof.IDEquipo) }}</p>
+                <p>Dado: {{ prestamof.Dado }}</p>
+                <p>Recibido: {{prestamof.Recuperado}}</p>
+            </div>
+            <div class="card-footer">
+                <button (click)="eliminarPrestamo(prestamof)" class="btn">Eliminar</button>
             </div>
         </div>
     </div>
